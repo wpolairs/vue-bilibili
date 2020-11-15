@@ -27,7 +27,32 @@
             <div class="download-btn">下载 APP</div>
         </div>
 
-       
+        <!-- nav区域 -->
+        <div 
+        class="nav"
+        v-for="list in 2" 
+        :class="{show:navshow && list === 2}">
+            <div 
+            :class="{nav_list1:list===1}" 
+            class="nav_list">
+                <ul 
+                :class="{nav1:list===1,nav2:list===2}">
+                    <li 
+                    v-for="(item,index) in navList"
+                    :key="item.id"
+                    :class="{active:index===activeIndex,big:item.title.length === 3 && list===2}"
+                    @click="changeNav(index)"
+                    >{{ item.title }}</li>
+                </ul>
+            </div>
+            <div 
+            :class="{control_btn1:list===1,control_btn2:list===2}"
+            @click="controlshow"
+            >
+                <svg v-if="list===1" viewBox="0 0 1024 1024" width="20" height="14"><path d="M515.2 649.6L169.6 304c-12.8-12.8-32-12.8-44.8 0s-12.8 35.2 0 48l368 364.8c12.8 12.8 32 12.8 44.8 0l361.6-361.6c12.8-12.8 12.8-35.2 0-48s-32-12.8-44.8 0L515.2 649.6z" fill="#ccc"></path></svg>
+                <svg v-else width="20" height="14" viewBox="0 0 1024 1024"><path d="M854.4 713.6c12.8 12.8 32 12.8 44.8 0s12.8-35.2 0-48L537.6 304c-12.8-12.8-32-12.8-44.8 0L124.8 672c-12.8 12.8-12.8 35.2 0 48s32 12.8 44.8 0l345.6-342.4 339.2 336z" fill="#ccc"></path></svg>
+            </div>
+        </div>
     </div>
     <script>
 
