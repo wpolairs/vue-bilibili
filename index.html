@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./assets/reset.css">
     <link rel="stylesheet" href="./assets/index.css">
     <script src="./js/axios.js"></script>
+    <script src="./js/response.js"></script>
     <script src="./js/vue.js"></script>
 </head>
 <body>
@@ -100,9 +101,7 @@
             <div>信息网络传播视听节目许可证：0910417</div>
         </div>
     </div>
-    <script>
-
-        axios.defaults.baseURL = 'https://developer.duyiedu.com/vue/bz';
+    <script>     
             const vm = new Vue({
                 el: "#app",
                 data: {
@@ -121,7 +120,9 @@
                     requestStatus:true,
                 },
                 created() {
-                    this.getData();
+                    this.getNavData();
+                    this.getBannerData();
+                    this.getVideoData();
                 },
                 mounted(){
                     this.autoMove();
@@ -139,7 +140,7 @@
                             this.bannerListIndex++;
 
                             this.bannerListStyle.left = (this.bannerListIndex * -100) + 'vw';
-                        }, 1500);
+                        }, 2000);
                     },
                     handleTransitionEnd() {
                         if (this.bannerListIndex === 3) {
@@ -150,30 +151,27 @@
                         this.autoMove();
                     },
                     handleScroll(e){
-                        const dom = e.target;
-                        const scrollHeight = dom.scrollHeight;
-                        const offsetHeight = dom.offsetHeight;
-                        let scrollTop = dom.scrollTop;
+                        const { scrollHeight,offsetHeight,scrollTop } = e.target;
                         let scrollbottom = scrollHeight - offsetHeight - scrollTop;
-                        console.log(scrollbottom)
-                        if(scrollbottom<100 && this.videoCount > this.videoList.length){
-                            this.getData();
+                        if(scrollbottom<200 && this.videoCount > this.videoList.length){
+                            this.getVideoData();
                         }
                     },
-                    getData() {
+                    getNavData() {
                         axios.get('/nav')
-                            .then(res => this.navList = res.data.data)
+                            .then(res => this.navList = res)
                             .catch(error => console.log(error));
-
+                    },
+                    getBannerData() {
                         axios.get("/banner")
                             .then(res => {
-                                if (res.status === 200) {
-                                    this.bannerList = res.data.data;
-                                    const len = this.bannerList.length;
-                                    this.bannerList[len] = { ...this.bannerList[0] };
-                                    this.bannerList[len].id = Math.floor(Math.random() * 10000000)
-                                }
+                                this.bannerList = res;
+                                const len = this.bannerList.length;
+                                this.bannerList[len] = { ...this.bannerList[0] };
+                                this.bannerList[len].id = Math.floor(Math.random() * 10000000)
                             }).catch(error => console.log(error));
+                    },
+                    getVideoData() {
                         if (this.requestStatus) {
                             this.requestStatus = false;
                             axios.get('/video', {
@@ -182,16 +180,13 @@
                                     offset: this.videoOffset,
                                 }
                             }).then(res => {
-                                    if (res.status === 200) {
-                                        this.videoCount = res.data.count;
-                                        this.videoList.push(...res.data.data);
-                                        this.videoStart += this.videoOffset;
-                                        this.requestStatus = true;
-                                    }
+                                this.videoCount = res.count;
+                                this.videoList.push(...res.data);
+                                this.videoStart += this.videoOffset;
+                                this.requestStatus = true;
                             }).catch(error => console.log(error));
                         }    
-                        
-                    },
+                    }
                 }
             })
     </script>

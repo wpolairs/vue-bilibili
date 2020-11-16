@@ -145,9 +145,16 @@
 }
 .banner_list li{
     width: 100vw;
+    padding: 0 2vw;
+    overflow: hidden;
 }
 .banner_list li img{
     width: 100%;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
 }
 .bannerCircle {
     position: absolute;
@@ -161,10 +168,10 @@
     -moz-transform: translateX(-50%);
     -ms-transform: translateX(-50%);
     -o-transform: translateX(-50%);
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    -ms-border-radius: 25px;
-    -o-border-radius: 25px;
+    -webkit-border-radius:;
+    -moz-border-radius:;
+    -ms-border-radius:;
+    -o-border-radius:;
 }
 .bannerCircle li{
     display: inline-block;
