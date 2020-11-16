@@ -6,8 +6,7 @@
     height: 40px;
     background-color: #fff;
     position: fixed;
-    left: 0;
-    right: 0;
+    width: 100vw;
     z-index: 3;
 }
 .header .search-input{
@@ -119,4 +118,61 @@
     -moz-transform: translateY(-190px);
     -ms-transform: translateY(-190px);
     -o-transform: translateY(-190px);
+}
+
+/* banner区域 */
+.banner{
+    padding-top: 100px;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+}
+.banner_list{
+    transition: left .5s;
+    width: 400vw;
+    display: flex;
+    position: relative;
+    left: 0;
+    -webkit-transition: left .5s;
+    -moz-transition: left .5s;
+    -ms-transition: left .5s;
+    -o-transition: left .5s;
+}
+.banner_list li{
+    width: 100vw;
+}
+.banner_list li img{
+    width: 100%;
+}
+.bannerCircle {
+    position: absolute;
+    bottom: 5px;
+    background-color: #0303037c;
+    border-radius: 25px;
+    padding: 0px 6px;
+    left:50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    -ms-border-radius: 25px;
+    -o-border-radius: 25px;
+}
+.bannerCircle li{
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: #fff;
+    margin: 5px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+.bannerActive{
+    background-color: #e94e96 !important;
 }

@@ -53,6 +53,27 @@
                 <svg v-else width="20" height="14" viewBox="0 0 1024 1024"><path d="M854.4 713.6c12.8 12.8 32 12.8 44.8 0s12.8-35.2 0-48L537.6 304c-12.8-12.8-32-12.8-44.8 0L124.8 672c-12.8 12.8-12.8 35.2 0 48s32 12.8 44.8 0l345.6-342.4 339.2 336z" fill="#ccc"></path></svg>
             </div>
         </div>
+        
+        <!-- banner区域 -->
+        <div class="banner">
+            <ul 
+            class="banner_list"
+            :style="bannerListStyle"
+            @transitionend="handleTransitionEnd"
+            >
+                <li
+                v-for="item in bannerList"
+                :key="item.id"
+                ><img :src="item.poster" :alt="item.title"></li>
+            </ul>
+            <ul class="bannerCircle">
+                <li 
+                v-for="(i,index) in (bannerList.length - 1 < 0 ? 0 : bannerList.length - 1 )"
+                :key="i"
+                :class="{bannerActive:index===bannerListIndex%3}"
+                ></li>
+            </ul>
+        </div>
     </div>
     <script>
 
@@ -63,11 +84,29 @@
                     navList: [],
                     activeIndex: 0,
                     navshow: !false,
+                    bannerList:[],
+                    bannerListStyle:{
+                        left:0,
+                    },
+                    bannerListIndex:0,
                 },
                 created() {
                     axios.get('/nav')
                         .then(res => this.navList = res.data.data)
-                        .catch(error => console.log(error))
+                        .catch(error => console.log(error));
+
+                    axios.get("/banner")
+                    .then(res=>{
+                        if(res.status === 200){
+                            this.bannerList = res.data.data;
+                            const len = this.bannerList.length;
+                            this.bannerList[len] = {...this.bannerList[0]};
+                            this.bannerList[len].id = Math.floor(Math.random()*10000000)
+                        }
+                    })
+                },
+                mounted(){
+                    this.autoMove();
                 },
                 methods: {
                     changeNav(index) {
@@ -75,6 +114,22 @@
                     },
                     controlshow() {
                         this.navshow = !this.navshow;
+                    },
+                    autoMove() {
+                        setTimeout(() => {
+                            this.bannerListStyle.transition = "left .5s";
+                            this.bannerListIndex++;
+
+                            this.bannerListStyle.left = (this.bannerListIndex * -100) + 'vw';
+                        }, 1500);
+                    },
+                    handleTransitionEnd() {
+                        if (this.bannerListIndex === 3) {
+                            this.bannerListIndex = 0;
+                            this.bannerListStyle.left = 0;
+                            this.bannerListStyle.transition = 'none';
+                        }
+                        this.autoMove();
                     }
                 }
             })
